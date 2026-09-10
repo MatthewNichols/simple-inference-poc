@@ -1,0 +1,22 @@
+Alaska Airlines Booking Confirmation
+
+Passenger Name: M. Nichols
+Record Locator: 4KDLQZ
+
+Your multi-city trip:
+
+Segment 1
+Alaska Airlines AS305
+Portland, OR (PDX) to San Francisco, CA (SFO)
+Monday, November 9, 2026
+Departs 7:05 AM / Arrives 9:12 AM
+Seat: 8D / Cabin: First
+
+Segment 2
+Alaska Airlines AS1190
+San Francisco, CA (SFO) to Los Angeles, CA (LAX)
+Wednesday, November 11, 2026
+Departs 2:20 PM / Arrives 3:41 PM
+Seat: 3A / Cabin: First
+
+Questions? Visit alaskaair.com

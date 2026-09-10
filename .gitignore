@@ -141,3 +141,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# tesseract.js OCR language data (auto-downloaded on first run)
+*.traineddata

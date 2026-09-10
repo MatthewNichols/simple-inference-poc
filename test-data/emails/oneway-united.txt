@@ -1,0 +1,23 @@
+From: United Airlines <noreply@united.com>
+To: matthew@example.com
+Subject: Your trip confirmation - DEN to ORD
+
+Dear Matthew Nichols,
+
+Thank you for booking with United Airlines. Your confirmation number is
+7XQK4P.
+
+FLIGHT DETAILS
+--------------
+United Airlines UA482
+Denver (DEN) to Chicago O'Hare (ORD)
+Wednesday, September 16, 2026
+
+Departure: 6:45 AM (Terminal B)
+Arrival: 10:12 AM
+
+Seat: 14C
+Class: Economy
+
+Thank you for flying with us!
+United Airlines

@@ -1,0 +1,26 @@
+From: Delta Air Lines <noreply@delta.com>
+To: matthew@example.com
+Subject: Your Delta itinerary - Confirmation JXQ9RT
+
+Hi Matthew,
+
+Your round-trip itinerary is confirmed. Confirmation code: JXQ9RT
+
+OUTBOUND
+Delta Air Lines DL1122
+Atlanta (ATL) -> Seattle (SEA)
+Depart: Fri, Oct 2, 2026 at 8:15 AM
+Arrive: Fri, Oct 2, 2026 at 10:47 AM
+Seat 22A, Main Cabin
+
+RETURN
+Delta Air Lines DL887
+Seattle (SEA) -> Atlanta (ATL)
+Depart: Tue, Oct 6, 2026 at 5:30 PM
+Arrive: Tue, Oct 6, 2026 at 11:58 PM
+Seat 19F, Main Cabin
+
+Passenger: Matthew Nichols
+
+Safe travels,
+Delta Air Lines

@@ -1,0 +1,30 @@
+{
+  "name": "simple-inference-poc",
+  "version": "1.0.0",
+  "description": "CPU-only LLM harness for extracting structured flight details from emails and images",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node --test",
+    "generate-samples": "node scripts/generate-sample-images.js",
+    "extract": "node src/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatthewNichols/simple-inference-poc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/MatthewNichols/simple-inference-poc/issues"
+  },
+  "homepage": "https://github.com/MatthewNichols/simple-inference-poc#readme",
+  "dependencies": {
+    "pureimage": "^0.4.20",
+    "tesseract.js": "^7.0.0"
+  }
+}
