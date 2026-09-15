@@ -1,5 +1,6 @@
 import { loadSourceText } from "./documentSource.js";
-import { generateJson, DEFAULT_MODEL } from "./ollamaClient.js";
+import { runExtraction } from "./extractionCore.js";
+import { DEFAULT_MODEL } from "./ollamaClient.js";
 import { HOTEL_JSON_SCHEMA, normalizeHotelPayload } from "./schemas/hotel-schema.js";
 
 // Documents that describe a cancellation (rather than an active reservation)
@@ -37,37 +38,38 @@ ${sourceText}
 }
 
 /**
- * Extracts structured hotel-stay details from an email (text) or image file.
- * Returns a payload matching the shape documented in src/schemas/hotel-schema.js.
+ * Extracts structured hotel-stay details given source text that's already
+ * been resolved (from disk or from an in-memory buffer). Returns a payload
+ * matching the shape documented in src/schemas/hotel-schema.js.
  *
  * Throws NonReservationDocumentError (instead of returning a payload) if the
  * document turns out to be a cancellation notice rather than a booking.
  */
-export async function extractHotelDetails(filePath, { model = DEFAULT_MODEL } = {}) {
-  const { sourceType, sourceText } = await loadSourceText(filePath);
-
+export async function extractHotelDetailsFromSource(
+  { sourceType, sourceText, sourceFile },
+  { model = DEFAULT_MODEL } = {}
+) {
   if (CANCELLATION_PATTERN.test(sourceText)) {
     throw new NonReservationDocumentError(
-      `"${filePath}" looks like a cancellation notice, not an active reservation - there is no stay to extract. ` +
+      `"${sourceFile}" looks like a cancellation notice, not an active reservation - there is no stay to extract. ` +
         "If you have the original booking confirmation, run extraction against that instead.",
-      { reason: "cancellation", sourceFile: filePath }
+      { reason: "cancellation", sourceFile }
     );
   }
 
-  const raw = await generateJson({
-    prompt: buildPrompt(sourceText),
-    schema: HOTEL_JSON_SCHEMA,
-    model,
-  });
-
-  const normalized = normalizeHotelPayload(raw);
-
-  return {
+  return runExtraction({
     sourceType,
-    sourceFile: filePath,
-    ...normalized,
-    modelUsed: model,
-    extractedAt: new Date().toISOString(),
-    rawTextExcerpt: sourceText.slice(0, 300),
-  };
+    sourceText,
+    sourceFile,
+    model,
+    buildPrompt,
+    schema: HOTEL_JSON_SCHEMA,
+    normalize: normalizeHotelPayload,
+  });
+}
+
+/** Extracts structured hotel-stay details from an email (text) or image file on disk. */
+export async function extractHotelDetails(filePath, options = {}) {
+  const { sourceType, sourceText } = await loadSourceText(filePath);
+  return extractHotelDetailsFromSource({ sourceType, sourceText, sourceFile: filePath }, options);
 }

@@ -18,8 +18,8 @@ export function detectSourceType(filePath) {
 }
 
 /**
- * Loads the raw text for a document, running OCR first if it's an image.
- * Shared by every document-type extractor (flight, hotel, ...).
+ * Loads the raw text for a document from disk, running OCR first if it's an
+ * image. Used by the CLI, which works against local file paths.
  */
 export async function loadSourceText(filePath) {
   const sourceType = detectSourceType(filePath);
@@ -27,5 +27,19 @@ export async function loadSourceText(filePath) {
     sourceType === "image"
       ? await extractTextFromImage(filePath)
       : await readFile(filePath, "utf8");
+  return { sourceType, sourceText };
+}
+
+/**
+ * Loads the raw text for a document already held in memory, running OCR
+ * first if it's an image. Used by the API, which receives file bytes over
+ * the wire rather than a path on the server's filesystem - `fileName` is
+ * only used to infer the source type from its extension, it is never read
+ * from disk.
+ */
+export async function loadSourceTextFromBuffer(fileName, buffer) {
+  const sourceType = detectSourceType(fileName);
+  const sourceText =
+    sourceType === "image" ? await extractTextFromImage(buffer) : buffer.toString("utf8");
   return { sourceType, sourceText };
 }

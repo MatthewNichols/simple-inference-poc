@@ -1,5 +1,6 @@
 import { loadSourceText } from "./documentSource.js";
-import { generateJson, DEFAULT_MODEL } from "./ollamaClient.js";
+import { runExtraction } from "./extractionCore.js";
+import { DEFAULT_MODEL } from "./ollamaClient.js";
 import { FLIGHT_JSON_SCHEMA, normalizeFlightPayload } from "./schemas/flight-schema.js";
 
 function buildPrompt(sourceText) {
@@ -20,26 +21,30 @@ ${sourceText}
 }
 
 /**
- * Extracts structured flight details from an email (text) or image file.
- * Returns a payload matching the shape documented in src/schemas/flight-schema.js.
+ * Extracts structured flight details given source text that's already been
+ * resolved (from disk or from an in-memory buffer). Returns a payload
+ * matching the shape documented in src/schemas/flight-schema.js.
  */
-export async function extractFlightDetails(filePath, { model = DEFAULT_MODEL } = {}) {
-  const { sourceType, sourceText } = await loadSourceText(filePath);
-
-  const raw = await generateJson({
-    prompt: buildPrompt(sourceText),
-    schema: FLIGHT_JSON_SCHEMA,
-    model,
-  });
-
-  const normalized = normalizeFlightPayload(raw);
-
-  return {
+export async function extractFlightDetailsFromSource(
+  { sourceType, sourceText, sourceFile },
+  { model = DEFAULT_MODEL } = {}
+) {
+  return runExtraction({
     sourceType,
-    sourceFile: filePath,
-    ...normalized,
-    modelUsed: model,
-    extractedAt: new Date().toISOString(),
-    rawTextExcerpt: sourceText.slice(0, 300),
-  };
+    sourceText,
+    sourceFile,
+    model,
+    buildPrompt,
+    schema: FLIGHT_JSON_SCHEMA,
+    normalize: normalizeFlightPayload,
+  });
+}
+
+/** Extracts structured flight details from an email (text) or image file on disk. */
+export async function extractFlightDetails(filePath, options = {}) {
+  const { sourceType, sourceText } = await loadSourceText(filePath);
+  return extractFlightDetailsFromSource(
+    { sourceType, sourceText, sourceFile: filePath },
+    options
+  );
 }
