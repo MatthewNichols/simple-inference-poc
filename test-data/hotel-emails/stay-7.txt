@@ -1,0 +1,42 @@
+From: Journeycorp Travel Desk <noreply@journeycorp-travel.test>
+To: t.blackwood@nimbusdynamics.test
+Subject: [Approved] Hotel Booking - Record Locator QK7F2P
+
+TRAVEL AUTHORIZATION CONFIRMED
+
+Record Locator: QK7F2P
+Booked by: Travel Desk (self-service portal)
+Approval status: Auto-approved (within policy)
+
+TRAVELER
+Name: Theodore Blackwood
+Employee ID: ND-88213
+Cost Center: 4471-ENG
+Trip Purpose: Q3 Infrastructure Summit
+
+HOTEL
+Ridgeline Business Hotel
+900 Commerce Park Drive, Austin, TX 78701
+Front Desk: +15125557734
+
+STAY
+Check-in: Mon, Jun 14, 2027
+Check-out: Thu, Jun 17, 2027
+Nights: 3
+Room Type: Standard King, Corporate Rate Plan CORP-ND22
+Rate: $159.00/night (negotiated corporate rate, tax excl.)
+Group Block: NIMBUS-SUMMIT27
+
+BILLING
+Payment Method: Corporate card on file (ending 4471)
+Per diem incidentals not included — submit separately via expense portal.
+
+POLICY NOTES
+- This booking falls within Nimbus Dynamics travel policy (Tier 2 - Domestic).
+- Changes must be made through the Travel Desk, not directly with the hotel.
+- Questions regarding cost center allocation: contact your manager or finance-travel@nimbusdynamics.test.
+
+Modify or cancel this booking: travel.journeycorp-travel.test/manage/QK7F2P
+
+Journeycorp Travel Desk
+This is an automated message from your corporate travel management system.

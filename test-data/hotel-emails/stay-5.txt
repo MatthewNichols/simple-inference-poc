@@ -1,0 +1,82 @@
+------- Forwarded Message -------
+From: Acme Hotels Guest Services <guestservices@acmehotels.test>
+Date: On Saturday, August 22nd, 2026 at 10:15 AM
+Subject: Welcome to Acme Hotels - Confirmation #ACME-WPQR-NBVZ7
+To: travel@mosswood-collective.test <travel@mosswood-collective.test>
+
+>> Welcome! Your stay is confirmed with Acme Hotels.
+>>
+>> RESERVATION CONFIRMATION
+>> Confirmation Number: ACME-WPQR-NBVZ7
+>>
+>> Thank you for your booking. We're excited to host you at Highland Lodge Park City.
+>>
+>> GUEST INFORMATION
+>> -----------------
+>> Primary Guest: Prince Thaddeus Willowmore
+>>
+>> RESERVATION DETAILS
+>> -------------------
+>> Check-In: Sunday, September 6th, 2026
+>> Check-Out: Sunday, September 13th, 2026
+>> Number of Nights: 7
+>> Room Type: Premium Mountain View Room
+>> Guests: 1 Adult
+>>
+>> HOTEL INFORMATION
+>> ------------------
+>> Property: Highland Lodge Park City
+>> Address: 1682 Summit Ridge Road, Park City, UT 84060
+>> Phone: +14355558192
+>> Amenities: Pool, Fitness Center, Restaurant, Ski Storage
+>>
+>> RATE INFORMATION
+>> ----------------
+>> Room Rate: $245.00 per night
+>> Resort Fee: $35.00 per night
+>> Taxes: $47.25 per night
+>> Total Estimated: $2,287.25 USD
+>>
+>> CHECK-IN INSTRUCTIONS
+>> ---------------------
+>> • Check-in begins at 4:00 PM
+>> • Express check-out available via TV or mobile app
+>> • Photo ID and credit card required at registration
+>> • Security deposit of $150 held on credit card during stay
+>> • Valet parking available ($32 per night)
+>> • Self-parking available ($18 per night)
+>>
+>> WHAT'S INCLUDED
+>> ---------------
+>> • Daily housekeeping
+>> • WiFi throughout property
+>> • Access to fitness center and pool
+>> • Complimentary coffee in lobby (6 AM – 10 AM)
+>>
+>> DINING OPTIONS
+>> -------------
+>> • The Pine Needle Restaurant – Breakfast 7-10 AM, Dinner 5-10 PM
+>> • Summit Bar & Lounge – Open until midnight nightly
+>> • Room service available 6 AM – 11 PM
+>>
+>> CANCELLATION POLICY
+>> ------------------
+>> Free cancellation until 48 hours prior to arrival. Late cancellations or modifications will incur a charge of one night's accommodation.
+>>
+>> WE'RE HERE TO HELP
+>> -----------------
+>> 24/7 Front Desk: +14355558192
+>> Guest Services Email: guestservices@acmehotels.test
+>>
+>> We look forward to your visit!
+>>
+>> Warmly,
+>> The Acme Hotels Guest Services Team
+>>
+>> Acme Hotels, Inc.
+>> 4500 Innovation Boulevard, Ste 200
+>> Portland, OR 97204
+>>
+>> Follow us: Twitter | Facebook | Instagram
+>>
+>> © 2026 Acme Hotels, Inc. All rights reserved.
