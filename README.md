@@ -20,7 +20,7 @@ Every extraction returns one JSON object:
 ```json
 {
   "sourceType": "email",
-  "sourceFile": "test-data/emails/oneway-united.txt",
+  "sourceFile": "test-data/flight-emails/oneway-united.txt",
   "confirmationNumber": "7XQK4P",
   "passengerName": "Matthew Nichols",
   "flights": [
@@ -127,8 +127,8 @@ npm install
 npm test
 
 # Extract details from any sample:
-npm run extract -- test-data/emails/oneway-united.txt
-npm run extract -- test-data/images/boardingpass-southwest.png
+npm run extract -- test-data/flight-emails/oneway-united.txt
+npm run extract -- test-data/flight-images/boardingpass-southwest.png
 
 # Regenerate the sample screenshot images (requires a TTF font on the
 # system — see FONT_CANDIDATES in the script if none are found):
