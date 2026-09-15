@@ -50,8 +50,9 @@ export async function extractHotelDetailsFromSource(
   { model = DEFAULT_MODEL } = {}
 ) {
   if (CANCELLATION_PATTERN.test(sourceText)) {
+    const subject = sourceFile ? `"${sourceFile}"` : "This document";
     throw new NonReservationDocumentError(
-      `"${sourceFile}" looks like a cancellation notice, not an active reservation - there is no stay to extract. ` +
+      `${subject} looks like a cancellation notice, not an active reservation - there is no stay to extract. ` +
         "If you have the original booking confirmation, run extraction against that instead.",
       { reason: "cancellation", sourceFile }
     );

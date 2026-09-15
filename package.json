@@ -9,7 +9,8 @@
   "scripts": {
     "test": "node --test",
     "generate-samples": "node scripts/generate-sample-images.js",
-    "extract": "node src/cli.js"
+    "extract": "node src/cli.js",
+    "serve": "node src/api/server.js"
   },
   "repository": {
     "type": "git",
