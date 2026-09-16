@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { normalizeFlightPayload, FLIGHT_LEG_FIELDS } from "../src/schema.js";
+import { normalizeFlightPayload, FLIGHT_LEG_FIELDS } from "../src/schemas/flight-schema.js";
 
 test("normalizeFlightPayload fills missing top-level fields with null", () => {
   const result = normalizeFlightPayload({});

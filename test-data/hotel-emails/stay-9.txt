@@ -1,0 +1,38 @@
+From: Acme Stays <stays@acmehotels.test>
+Date: On Tuesday, May 4th, 2027 at 8:41 AM
+Subject: Cancellation Confirmed - Stay ACME-JKLM-8823R
+
+>> CANCELLATION CONFIRMED
+>>
+>> Original Stay ID: ACME-JKLM-8823R
+>> Cancellation ID: CXL-20270504-6631
+>>
+>> This is to confirm that the following stay has been cancelled at the guest's request.
+>>
+>> CANCELLED STAY DETAILS
+>> Guest Name: Baron Reginald Pemberton
+>> Hotel: Foxglove Hollow Inn
+>> Original Check In: 5/18/2027
+>> Original Check Out: 5/21/2027
+>>
+>> REFUND SUMMARY
+>> Amount Paid: $612.00
+>> Cancellation Fee: $0.00 (cancelled within free window)
+>> Refund Amount: $612.00
+>> Refund Method: Original payment card
+>> Estimated Refund Timeline: 5-7 business days
+>>
+>> HOTEL
+>> Foxglove Hollow Inn
+>> 77 Larkspur Terrace, Sedona, AZ 86336
+>>
+>> AGENCY CONTACT
+>> Booking Agent: Seraphina Winterbourne
+>> Agent Email: seraphina@moonbeam-foundation.test
+>>
+>> If you did not request this cancellation, please contact us immediately at help.stays@acmehotels.test.
+>>
+>> The Acme Stays Team
+>> Acme Hotels, Inc.
+>> 4500 Innovation Boulevard, Ste 200
+>> Portland, OR 97204

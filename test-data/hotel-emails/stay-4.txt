@@ -1,0 +1,71 @@
+------- Forwarded Message -------
+From: Acme Hotels Reservations <reservations@acmehotels.test>
+Date: On Thursday, February 5th, 2027 at 4:22 PM
+Subject: Your Reservation Confirmation #ACME-DV8N-MTHP4
+To: guest@starlight-estate.test <guest@starlight-estate.test>
+
+>> Thank you for choosing Acme Hotels!
+>>
+>> RESERVATION CONFIRMATION
+>> Confirmation Number: ACME-DV8N-MTHP4
+>>
+>> Your reservation at Grandview Suites Charleston has been confirmed. We look forward to welcoming you.
+>>
+>> GUEST INFORMATION
+>> -----------------
+>> Primary Guest: Lady Genevieve Ashworth
+>> Second Guest: Sir Cedric Moonstone
+>>
+>> RESERVATION DETAILS
+>> -------------------
+>> Check-In: Tuesday, February 10th, 2027
+>> Check-Out: Friday, February 13th, 2027
+>> Number of Nights: 3
+>> Room Type: Deluxe King Suite
+>> Guests: 2 Adults
+>>
+>> HOTEL INFORMATION
+>> ------------------
+>> Property: Grandview Suites Charleston
+>> Address: 842 Harbor View Boulevard, Charleston, SC 29401
+>> Phone: +18435552947
+>>
+>> RATE INFORMATION
+>> ----------------
+>> Room Rate: $189.00 per night
+>> Taxes & Fees: $42.51 per night
+>> Total Estimated: $702.33 USD
+>>
+>> CHECK-IN INSTRUCTIONS
+>> ---------------------
+>> • Check-in time: 3:00 PM – 11:00 PM
+>> • Check-out time: 11:00 AM
+>> • Valid government-issued photo ID required at check-in
+>> • Credit card in guest name required for incidentals deposit
+>> • Early check-in subject to availability (please request at front desk)
+>> • Airport shuttle available upon request ($25 per vehicle)
+>>
+>> SPECIAL REQUESTS
+>> ---------------
+>> • High floor requested
+>> • Quiet room away from elevator
+>> • Late check-out requested (subject to availability and possible fee)
+>>
+>> CANCELLATION POLICY
+>> ------------------
+>> Free cancellation until 6:00 PM on February 9th, 2027. Cancellations after this time or no-shows will be charged one night's stay.
+>>
+>> CONTACT US
+>> ---------
+>> Questions? Email reservations@acmehotels.test or call +18005551234
+>>
+>> Safe travels,
+>> The Acme Hotels Team
+>>
+>> Acme Hotels, Inc.
+>> 4500 Innovation Boulevard, Ste 200
+>> Portland, OR 97204
+>>
+>> This is a confirmation email. Please retain for your records.
+>>
+>> © 2027 Acme Hotels, Inc. All rights reserved.

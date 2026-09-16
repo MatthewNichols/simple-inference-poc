@@ -46,7 +46,7 @@ function assertWellFormedPayload(result, { sourceType }) {
 test("extracts a one-way itinerary from a plain-text email", async (t) => {
   if (skipIfNoOllama(t)) return;
 
-  const result = await extractFlightDetails("test-data/emails/oneway-united.txt");
+  const result = await extractFlightDetails("test-data/flight-emails/oneway-united.txt");
   assertWellFormedPayload(result, { sourceType: "email" });
 
   assert.equal(result.confirmationNumber, "7XQK4P");
@@ -59,7 +59,7 @@ test("extracts a one-way itinerary from a plain-text email", async (t) => {
 test("extracts both legs of a round-trip itinerary from a plain-text email", async (t) => {
   if (skipIfNoOllama(t)) return;
 
-  const result = await extractFlightDetails("test-data/emails/roundtrip-delta.txt");
+  const result = await extractFlightDetails("test-data/flight-emails/roundtrip-delta.txt");
   assertWellFormedPayload(result, { sourceType: "email" });
 
   assert.equal(result.confirmationNumber, "JXQ9RT");
@@ -73,7 +73,7 @@ test("extracts both legs of a round-trip itinerary from a plain-text email", asy
 test("extracts a multi-city itinerary from a plain-text email", async (t) => {
   if (skipIfNoOllama(t)) return;
 
-  const result = await extractFlightDetails("test-data/emails/multicity-alaska.txt");
+  const result = await extractFlightDetails("test-data/flight-emails/multicity-alaska.txt");
   assertWellFormedPayload(result, { sourceType: "email" });
 
   assert.equal(result.confirmationNumber, "4KDLQZ");
@@ -84,7 +84,7 @@ test("extracts flight details from a boarding-pass image via OCR + LLM", async (
   if (skipIfNoOllama(t)) return;
 
   const result = await extractFlightDetails(
-    "test-data/images/boardingpass-southwest.png"
+    "test-data/flight-images/boardingpass-southwest.png"
   );
   assertWellFormedPayload(result, { sourceType: "image" });
 
@@ -97,7 +97,7 @@ test("extracts flight details from a confirmation screenshot via OCR + LLM", asy
   if (skipIfNoOllama(t)) return;
 
   const result = await extractFlightDetails(
-    "test-data/images/confirmation-screenshot-jetblue.png"
+    "test-data/flight-images/confirmation-screenshot-jetblue.png"
   );
   assertWellFormedPayload(result, { sourceType: "image" });
 

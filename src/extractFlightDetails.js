@@ -1,23 +1,7 @@
-import { readFile } from "node:fs/promises";
-import { extname } from "node:path";
-import { extractTextFromImage } from "./ocr.js";
-import { generateJson, DEFAULT_MODEL } from "./ollamaClient.js";
-import { FLIGHT_JSON_SCHEMA, normalizeFlightPayload } from "./schema.js";
-
-const IMAGE_EXTENSIONS = new Set([".png", ".jpg", ".jpeg", ".webp", ".bmp"]);
-const TEXT_EXTENSIONS = new Set([".txt", ".eml"]);
-
-function detectSourceType(filePath) {
-  const ext = extname(filePath).toLowerCase();
-  if (IMAGE_EXTENSIONS.has(ext)) return "image";
-  if (TEXT_EXTENSIONS.has(ext)) return "email";
-  throw new Error(
-    `Cannot infer source type from extension "${ext}". Expected one of ${[
-      ...IMAGE_EXTENSIONS,
-      ...TEXT_EXTENSIONS,
-    ].join(", ")}.`
-  );
-}
+import { loadSourceText } from "./documentSource.js";
+import { runExtraction } from "./extractionCore.js";
+import { DEFAULT_MODEL } from "./ollamaClient.js";
+import { FLIGHT_JSON_SCHEMA, normalizeFlightPayload } from "./schemas/flight-schema.js";
 
 function buildPrompt(sourceText) {
   return `You are an information-extraction engine. Extract flight details from the text below, which comes from a flight confirmation email or a screenshot of one.
@@ -37,31 +21,30 @@ ${sourceText}
 }
 
 /**
- * Extracts structured flight details from an email (text) or image file.
- * Returns a payload matching the shape documented in src/schema.js.
+ * Extracts structured flight details given source text that's already been
+ * resolved (from disk or from an in-memory buffer). Returns a payload
+ * matching the shape documented in src/schemas/flight-schema.js.
  */
-export async function extractFlightDetails(filePath, { model = DEFAULT_MODEL } = {}) {
-  const sourceType = detectSourceType(filePath);
-
-  const sourceText =
-    sourceType === "image"
-      ? await extractTextFromImage(filePath)
-      : await readFile(filePath, "utf8");
-
-  const raw = await generateJson({
-    prompt: buildPrompt(sourceText),
-    schema: FLIGHT_JSON_SCHEMA,
-    model,
-  });
-
-  const normalized = normalizeFlightPayload(raw);
-
-  return {
+export async function extractFlightDetailsFromSource(
+  { sourceType, sourceText, sourceFile },
+  { model = DEFAULT_MODEL } = {}
+) {
+  return runExtraction({
     sourceType,
-    sourceFile: filePath,
-    ...normalized,
-    modelUsed: model,
-    extractedAt: new Date().toISOString(),
-    rawTextExcerpt: sourceText.slice(0, 300),
-  };
+    sourceText,
+    sourceFile,
+    model,
+    buildPrompt,
+    schema: FLIGHT_JSON_SCHEMA,
+    normalize: normalizeFlightPayload,
+  });
+}
+
+/** Extracts structured flight details from an email (text) or image file on disk. */
+export async function extractFlightDetails(filePath, options = {}) {
+  const { sourceType, sourceText } = await loadSourceText(filePath);
+  return extractFlightDetailsFromSource(
+    { sourceType, sourceText, sourceFile: filePath },
+    options
+  );
 }

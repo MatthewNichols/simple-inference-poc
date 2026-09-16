@@ -1,5 +1,5 @@
 // One-off dev script: renders sample flight-confirmation "screenshots" as
-// PNGs into test-data/images/, so the harness has image fixtures to OCR
+// PNGs into test-data/flight-images/, so the harness has image fixtures to OCR
 // without needing real screenshots. Not part of the runtime harness.
 import { mkdir, writeFile } from "node:fs/promises";
 import { createWriteStream, existsSync } from "node:fs";
@@ -8,7 +8,7 @@ import path from "node:path";
 import * as pureimage from "pureimage";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const outDir = path.join(__dirname, "..", "test-data", "images");
+const outDir = path.join(__dirname, "..", "test-data", "flight-images");
 
 const FONT_CANDIDATES = [
   "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",

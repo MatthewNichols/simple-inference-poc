@@ -1,0 +1,92 @@
+------- Forwarded Message -------
+From: Acme Stays <stays@acmehotels.test>
+Date: On Monday, March 12th, 2027 at 9:14 AM
+Subject: Stay ACME-BQZM-KWLP3
+To: hello@moonbeam-foundation.test <hello@moonbeam-foundation.test>
+
+>> Acme Stays by Acme Hotels        LinkedIn    Instagram    Facebook
+>>
+>> STAY ID ACME-BQZM-KWLP3
+>> Stay Pending at Oakhaven Inn Silverdale
+>>
+>> Our team is confirming availability with the property. Please do NOT send the guest(s) to the hotel until we send a confirmation message.
+>> Stay Details
+>>
+>> Stay ID: ACME-BQZM-KWLP3
+>>
+>> Guest Name: Cinderella Moonshadow
+>>
+>> Alias Stay: Yes
+>>
+>> Check In: 3/15/2027
+>>
+>> Check Out: 3/18/2027
+>>
+>> Estimated Check In Time: 3:30pm
+>>
+>> Pre-Check-In Requested: No
+>>
+>> Adults: 2
+>>
+>> Children: 1
+>>
+>> Animals: 1
+>>
+>> Parking: 1
+>> Hotel Information
+>>
+>> Hotel Confirmation: 71942FF985129
+>>
+>> Name: Oakhaven Inn Silverdale
+>>
+>> Alias Approved: Yes
+>>
+>> Address: 2847 Willow Creek Drive, Silverdale, WA 98383
+>> Agency Contact(s)
+>>
+>> Booking Agent: Seraphina Winterbourne
+>>
+>> Stay Contact: Seraphina Winterbourne
+>>
+>> Stay Contact Email: seraphina@moonbeam-foundation.test
+>>
+>> Stay Contact Phone: +14255551892
+>> Important check-in instructions:
+>> 1.   Your client should not present a credit card at check-in — billing is already arranged through Acme Stays.
+>> 2.   If this is an alias-approved stay, your client will not need to present an ID at the front desk.
+>>
+>> Problems checking in? Share the attached PDF with your client and have them show it to the front desk staff.
+>>
+>> If you have any further questions about this Acme Stays reservation, please email our 24/7 Team at help.stays@acmehotels.test.
+>> View Stay →
+>>
+>> Best regards,
+>>
+>> The Acme Stays Team
+>>       
+>> Visit Acme Stays
+>> ★       
+>>
+>> Help us improve: Share Feedback
+>> Person with secure lock icon
+>>
+>> Alias Booking
+>>          ID Icon
+>>
+>> No ID, No Credit Cards
+>>          Calender with checkmark icon
+>>
+>> Instant Availability
+>> Acme Hotels
+>>
+>> Acme Hotels, Inc.
+>>
+>> 4500 Innovation Boulevard, Ste 200
+>> Portland, OR 97204
+>> LinkedIn    Instagram    Facebook
+>>
+>> Do not respond to this email.
+>>
+>> If you have any questions or issues, please contact us.
+>>
+>> Update notification preferences in your Acme Stays profile.
