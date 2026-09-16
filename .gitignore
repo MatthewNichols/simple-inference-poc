@@ -144,3 +144,8 @@ vite.config.ts.timestamp-*
 
 # tesseract.js OCR language data (auto-downloaded on first run)
 *.traineddata
+
+# generated OpenAPI spec + API client (npm run generate-client)
+/openapi.json
+/generated-client/
+/openapitools.json

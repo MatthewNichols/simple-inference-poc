@@ -2,11 +2,35 @@ import { SOURCE_TYPES } from "../documentSource.js";
 import { FLIGHT_JSON_SCHEMA } from "../schemas/flight-schema.js";
 import { HOTEL_JSON_SCHEMA } from "../schemas/hotel-schema.js";
 
+// FLIGHT_JSON_SCHEMA/HOTEL_JSON_SCHEMA use `type: [T, "null"]` for nullable
+// fields, which is valid JSON Schema (and OpenAPI 3.1) but not OpenAPI 3.0 -
+// there, nullability is a separate `nullable: true` keyword and `type` must
+// be a single string. This walks a schema fragment and rewrites it so the
+// same fragments can be embedded in a 3.0 document without hand-duplicating
+// every field.
+function toOpenApi30Schema(node) {
+  if (Array.isArray(node)) return node.map(toOpenApi30Schema);
+  if (node === null || typeof node !== "object") return node;
+
+  const result = {};
+  for (const [key, value] of Object.entries(node)) {
+    if (key === "type" && Array.isArray(value)) {
+      const nonNullTypes = value.filter((t) => t !== "null");
+      result.type = nonNullTypes.length === 1 ? nonNullTypes[0] : nonNullTypes;
+      if (nonNullTypes.length !== value.length) result.nullable = true;
+    } else {
+      result[key] = toOpenApi30Schema(value);
+    }
+  }
+  return result;
+}
+
 // Wraps a document-type's JSON Schema (already used to constrain the LLM's
 // output) with the envelope fields every extraction response shares. Built
 // from the same schema fragments the extractors validate against, rather
 // than duplicating field lists by hand.
 function extractionResultSchema(payloadSchema) {
+  const { properties, required } = toOpenApi30Schema(payloadSchema);
   return {
     type: "object",
     properties: {
@@ -16,12 +40,13 @@ function extractionResultSchema(payloadSchema) {
         description: "Whether the document was treated as plain text or run through OCR first.",
       },
       sourceFile: {
-        type: ["string", "null"],
+        type: "string",
+        nullable: true,
         description:
           "Always null for API-originated extractions - there is no server-side file. " +
           "(The CLI populates this with a real path when run locally.)",
       },
-      ...payloadSchema.properties,
+      ...properties,
       modelUsed: { type: "string" },
       extractedAt: { type: "string", format: "date-time" },
       rawTextExcerpt: {
@@ -32,7 +57,7 @@ function extractionResultSchema(payloadSchema) {
     required: [
       "sourceType",
       "sourceFile",
-      ...payloadSchema.required,
+      ...required,
       "modelUsed",
       "extractedAt",
       "rawTextExcerpt",

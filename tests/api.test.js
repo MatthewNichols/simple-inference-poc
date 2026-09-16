@@ -57,6 +57,32 @@ test("GET /openapi.json serves metadata a client generator can consume", async (
   });
 });
 
+test("GET /openapi.json has no array-valued `type` fields (invalid in OpenAPI 3.0)", async () => {
+  // FLIGHT_JSON_SCHEMA/HOTEL_JSON_SCHEMA use `type: [T, "null"]` for the
+  // Ollama-facing JSON Schema, which is valid JSON Schema but not OpenAPI
+  // 3.0 - there, nullability must be `nullable: true` with a single-string
+  // `type`. openapi.js converts this when embedding those fragments; this
+  // guards against that conversion silently regressing (a real generator
+  // - openapi-generator via Docker - rejected the unconverted spec outright).
+  await withServer(async (baseUrl) => {
+    const res = await fetch(`${baseUrl}/openapi.json`);
+    const doc = await res.json();
+
+    const offendingPaths = [];
+    function walk(node, path) {
+      if (Array.isArray(node)) {
+        node.forEach((item, i) => walk(item, `${path}[${i}]`));
+      } else if (node && typeof node === "object") {
+        if (Array.isArray(node.type)) offendingPaths.push(`${path}.type`);
+        for (const [key, value] of Object.entries(node)) walk(value, `${path}.${key}`);
+      }
+    }
+    walk(doc, "openapi.json");
+
+    assert.deepEqual(offendingPaths, []);
+  });
+});
+
 test("POST /v1/extract/flight without an API key is rejected", async () => {
   await withServer(async (baseUrl) => {
     const res = await fetch(`${baseUrl}/v1/extract/flight`, {

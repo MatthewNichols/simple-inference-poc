@@ -10,7 +10,10 @@
     "test": "node --test",
     "generate-samples": "node scripts/generate-sample-images.js",
     "extract": "node src/cli.js",
-    "serve": "node src/api/server.js"
+    "serve": "node src/api/server.js",
+    "generate-openapi-spec": "node scripts/generate-openapi-spec.js",
+    "generate-client": "npm run generate-openapi-spec && docker run --rm --user \"$(id -u):$(id -g)\" -v \"$(pwd):/local\" openapitools/openapi-generator-cli generate -i /local/openapi.json -g typescript-fetch -o /local/generated-client",
+    "generate-client:npx": "npm run generate-openapi-spec && npx @openapitools/openapi-generator-cli generate -i ./openapi.json -g typescript-fetch -o ./generated-client"
   },
   "repository": {
     "type": "git",
