@@ -1,0 +1,25 @@
+meta {
+  name: Missing API Key (expect 401)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/extract/flight
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "sourceType": "email",
+    "contentBase64": "aGVsbG8="
+  }
+}
+
+tests {
+  test("responds 401 without an x-api-key header", function () {
+    expect(res.status).to.equal(401);
+    expect(res.body.error.code).to.equal("UNAUTHORIZED");
+  });
+}

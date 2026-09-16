@@ -1,0 +1,22 @@
+meta {
+  name: Extract Flight (email)
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/v1/extract/flight
+  body: json
+  auth: none
+}
+
+headers {
+  x-api-key: {{apiKey}}
+}
+
+body:json {
+  {
+    "sourceType": "email",
+    "contentBase64": "RnJvbTogVW5pdGVkIEFpcmxpbmVzIDxub3JlcGx5QHVuaXRlZC5jb20+ClRvOiBtYXR0aGV3QGV4YW1wbGUuY29tClN1YmplY3Q6IFlvdXIgdHJpcCBjb25maXJtYXRpb24gLSBERU4gdG8gT1JECgpEZWFyIE1hdHRoZXcgTmljaG9scywKClRoYW5rIHlvdSBmb3IgYm9va2luZyB3aXRoIFVuaXRlZCBBaXJsaW5lcy4gWW91ciBjb25maXJtYXRpb24gbnVtYmVyIGlzCjdYUUs0UC4KCkZMSUdIVCBERVRBSUxTCi0tLS0tLS0tLS0tLS0tClVuaXRlZCBBaXJsaW5lcyBVQTQ4MgpEZW52ZXIgKERFTikgdG8gQ2hpY2FnbyBPJ0hhcmUgKE9SRCkKV2VkbmVzZGF5LCBTZXB0ZW1iZXIgMTYsIDIwMjYKCkRlcGFydHVyZTogNjo0NSBBTSAoVGVybWluYWwgQikKQXJyaXZhbDogMTA6MTIgQU0KClNlYXQ6IDE0QwpDbGFzczogRWNvbm9teQoKVGhhbmsgeW91IGZvciBmbHlpbmcgd2l0aCB1cyEKVW5pdGVkIEFpcmxpbmVzCg=="
+  }
+}

@@ -1,0 +1,30 @@
+meta {
+  name: Extract Hotel (cancellation notice, expect 422)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/extract/hotel
+  body: json
+  auth: none
+}
+
+headers {
+  x-api-key: {{apiKey}}
+}
+
+body:json {
+  {
+    "sourceType": "email",
+    "contentBase64": "RnJvbTogQWNtZSBTdGF5cyA8c3RheXNAYWNtZWhvdGVscy50ZXN0PgpEYXRlOiBPbiBUdWVzZGF5LCBNYXkgNHRoLCAyMDI3IGF0IDg6NDEgQU0KU3ViamVjdDogQ2FuY2VsbGF0aW9uIENvbmZpcm1lZCAtIFN0YXkgQUNNRS1KS0xNLTg4MjNSCgo+PiBDQU5DRUxMQVRJT04gQ09ORklSTUVECj4+Cj4+IE9yaWdpbmFsIFN0YXkgSUQ6IEFDTUUtSktMTS04ODIzUgo+PiBDYW5jZWxsYXRpb24gSUQ6IENYTC0yMDI3MDUwNC02NjMxCj4+Cj4+IFRoaXMgaXMgdG8gY29uZmlybSB0aGF0IHRoZSBmb2xsb3dpbmcgc3RheSBoYXMgYmVlbiBjYW5jZWxsZWQgYXQgdGhlIGd1ZXN0J3MgcmVxdWVzdC4KPj4KPj4gQ0FOQ0VMTEVEIFNUQVkgREVUQUlMUwo+PiBHdWVzdCBOYW1lOiBCYXJvbiBSZWdpbmFsZCBQZW1iZXJ0b24KPj4gSG90ZWw6IEZveGdsb3ZlIEhvbGxvdyBJbm4KPj4gT3JpZ2luYWwgQ2hlY2sgSW46IDUvMTgvMjAyNwo+PiBPcmlnaW5hbCBDaGVjayBPdXQ6IDUvMjEvMjAyNwo+Pgo+PiBSRUZVTkQgU1VNTUFSWQo+PiBBbW91bnQgUGFpZDogJDYxMi4wMAo+PiBDYW5jZWxsYXRpb24gRmVlOiAkMC4wMCAoY2FuY2VsbGVkIHdpdGhpbiBmcmVlIHdpbmRvdykKPj4gUmVmdW5kIEFtb3VudDogJDYxMi4wMAo+PiBSZWZ1bmQgTWV0aG9kOiBPcmlnaW5hbCBwYXltZW50IGNhcmQKPj4gRXN0aW1hdGVkIFJlZnVuZCBUaW1lbGluZTogNS03IGJ1c2luZXNzIGRheXMKPj4KPj4gSE9URUwKPj4gRm94Z2xvdmUgSG9sbG93IElubgo+PiA3NyBMYXJrc3B1ciBUZXJyYWNlLCBTZWRvbmEsIEFaIDg2MzM2Cj4+Cj4+IEFHRU5DWSBDT05UQUNUCj4+IEJvb2tpbmcgQWdlbnQ6IFNlcmFwaGluYSBXaW50ZXJib3VybmUKPj4gQWdlbnQgRW1haWw6IHNlcmFwaGluYUBtb29uYmVhbS1mb3VuZGF0aW9uLnRlc3QKPj4KPj4gSWYgeW91IGRpZCBub3QgcmVxdWVzdCB0aGlzIGNhbmNlbGxhdGlvbiwgcGxlYXNlIGNvbnRhY3QgdXMgaW1tZWRpYXRlbHkgYXQgaGVscC5zdGF5c0BhY21laG90ZWxzLnRlc3QuCj4+Cj4+IFRoZSBBY21lIFN0YXlzIFRlYW0KPj4gQWNtZSBIb3RlbHMsIEluYy4KPj4gNDUwMCBJbm5vdmF0aW9uIEJvdWxldmFyZCwgU3RlIDIwMAo+PiBQb3J0bGFuZCwgT1IgOTcyMDQK"
+  }
+}
+
+tests {
+  test("responds 422 with a NON_RESERVATION_DOCUMENT error", function () {
+    expect(res.status).to.equal(422);
+    expect(res.body.error.code).to.equal("NON_RESERVATION_DOCUMENT");
+    expect(res.body.error.reason).to.equal("cancellation");
+  });
+}

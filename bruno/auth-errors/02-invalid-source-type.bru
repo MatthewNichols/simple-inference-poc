@@ -1,0 +1,29 @@
+meta {
+  name: Invalid sourceType (expect 400)
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/v1/extract/flight
+  body: json
+  auth: none
+}
+
+headers {
+  x-api-key: {{apiKey}}
+}
+
+body:json {
+  {
+    "sourceType": "pdf",
+    "contentBase64": "aGVsbG8="
+  }
+}
+
+tests {
+  test("responds 400 for an unrecognized sourceType", function () {
+    expect(res.status).to.equal(400);
+    expect(res.body.error.code).to.equal("BAD_REQUEST");
+  });
+}
