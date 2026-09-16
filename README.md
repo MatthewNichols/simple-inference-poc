@@ -128,6 +128,11 @@ src/
 scripts/
   generate-sample-images.js  renders the sample "screenshot" PNGs below
   generate-openapi-spec.js    writes the OpenAPI document to ./openapi.json (see The API)
+  build-web.js                 bundles web/ into web/dist/bundle.js (see Web UI)
+web/
+  index.html                 browser console: pick flight/hotel, paste text or upload an image
+  main.js                     drives the console via ./generated-client/ (see Web UI)
+  dist/                        build output of `npm run build-web` - gitignored
 test-data/
   flight-emails/    sample flight-confirmation emails (plain text)
   flight-images/    sample flight-confirmation screenshots (PNG, generated)
@@ -314,6 +319,33 @@ Every error response has the shape `{"error": {"code": "...", "message":
 | 404    | `NOT_FOUND`                | No route for that method/path                             |
 | 422    | `NON_RESERVATION_DOCUMENT` | Hotel document is a cancellation notice, not a booking     |
 | 500    | `INTERNAL_ERROR`           | Unexpected failure (e.g. Ollama unreachable)               |
+
+### Web UI
+
+A small browser console at `web/` lets you pick flight/hotel, paste text or
+upload an image, and see results as either formatted fields or raw JSON. It
+calls the API exclusively through the generated client (below), not
+hand-rolled `fetch` calls - proof the client works in a browser, not just
+Node.
+
+Since `./generated-client/` is TypeScript and gitignored build output, the
+page needs a bundling step:
+
+```bash
+npm run generate-client   # or generate-client:npx - see below
+npm run build-web         # -> web/dist/bundle.js (esbuild, also gitignored)
+npm run serve
+# open http://localhost:3000/
+```
+
+`npm run serve` serves `web/index.html` and `web/dist/bundle.js` itself
+(`GET /` and `GET /bundle.js`) alongside the API - no separate dev server,
+and no CORS to configure since the page and the API share an origin. If you
+edit anything under `web/`, rerun `npm run build-web` to pick it up.
+
+The API key field defaults to `poc-dev-key` and is saved to
+`localStorage` for convenience; it's never sent anywhere but the
+`x-api-key` header on your own requests.
 
 ### Generating a client library
 
