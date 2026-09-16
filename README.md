@@ -138,6 +138,7 @@ tests/
   extractFlightDetails.test.js   full flight pipeline against every sample, requires Ollama
   extractHotelDetails.test.js    full hotel pipeline against every sample, requires Ollama
   api.test.js                     HTTP layer: auth, validation, and live round-trips through the API
+  generated-client.test.js        exercises ./generated-client/ if it exists; skips (doesn't fail) otherwise
 ```
 
 ## Manual setup
@@ -347,3 +348,14 @@ Both scripts default to a TypeScript fetch client; see the `generate-client`
 / `generate-client:npx` scripts in [package.json](package.json) to target a
 different generator, e.g. `-g python` or `-g go`. `./openapi.json` and
 `./generated-client/` are both gitignored — they're build output, not source.
+
+**Testing the generated client:** [tests/generated-client.test.js](tests/generated-client.test.js)
+actually exercises `./generated-client/` against a live in-process server
+(both the 422 cancellation path and, if Ollama is available, a full
+extraction) - proof the OpenAPI document produces a *working* client, not
+just a well-formed one. If you haven't run `npm run generate-client` yet,
+these tests skip themselves with a message telling you to, rather than
+failing `npm test` on a fresh checkout. The generated client's `runtime.ts`
+uses TypeScript parameter properties, which Node's native type-stripping
+can't handle (only erasure, not real transformation) — the test loads it
+via [tsx](https://github.com/privatenumber/tsx) (a devDependency) instead.

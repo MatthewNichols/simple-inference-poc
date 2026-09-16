@@ -13,7 +13,8 @@
     "serve": "node src/api/server.js",
     "generate-openapi-spec": "node scripts/generate-openapi-spec.js",
     "generate-client": "npm run generate-openapi-spec && docker run --rm --user \"$(id -u):$(id -g)\" -v \"$(pwd):/local\" openapitools/openapi-generator-cli generate -i /local/openapi.json -g typescript-fetch -o /local/generated-client",
-    "generate-client:npx": "npm run generate-openapi-spec && npx @openapitools/openapi-generator-cli generate -i ./openapi.json -g typescript-fetch -o ./generated-client"
+    "generate-client:npx": "npm run generate-openapi-spec && npx @openapitools/openapi-generator-cli generate -i ./openapi.json -g typescript-fetch -o ./generated-client",
+    "clean:generated-client": "rm -rf ./generated-client"
   },
   "repository": {
     "type": "git",
@@ -30,5 +31,8 @@
   "dependencies": {
     "pureimage": "^0.4.20",
     "tesseract.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.13"
   }
 }
