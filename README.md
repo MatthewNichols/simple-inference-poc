@@ -139,6 +139,8 @@ tests/
   extractHotelDetails.test.js    full hotel pipeline against every sample, requires Ollama
   api.test.js                     HTTP layer: auth, validation, and live round-trips through the API
   generated-client.test.js        exercises ./generated-client/ if it exists; skips (doesn't fail) otherwise
+bruno/
+  runnable Bruno collection covering every endpoint - see Curl-and-Bruno.md
 ```
 
 ## Manual setup
@@ -293,6 +295,11 @@ curl -X POST http://localhost:3000/v1/extract/hotel \
   -H "x-api-key: poc-dev-key" \
   -d "{\"sourceType\":\"email\",\"contentBase64\":\"$(base64 -w0 test-data/hotel-emails/stay-4.txt)\"}"
 ```
+
+For every endpoint and several error cases (auth, validation, the
+cancellation 422) as both curl commands and a runnable
+[Bruno](https://docs.usebruno.com/) collection, see
+[Curl-and-Bruno.md](Curl-and-Bruno.md).
 
 ### Errors
 
