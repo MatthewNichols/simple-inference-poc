@@ -149,3 +149,6 @@ vite.config.ts.timestamp-*
 /openapi.json
 /generated-client/
 /openapitools.json
+
+# bundled web console (npm run build-web) - built output, not source
+/web/dist/

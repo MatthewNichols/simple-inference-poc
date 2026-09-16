@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple Inference POC</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --border: #d0d7de;
+    --muted: #6e7781;
+    --bg-card: #f6f8fa;
+    --accent: #0969da;
+    --warning-bg: #fff8c5;
+    --warning-fg: #7d5a00;
+    --error-bg: #ffebe9;
+    --error-fg: #cf222e;
+    --success-fg: #1a7f37;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --border: #30363d;
+      --muted: #8b949e;
+      --bg-card: #161b22;
+      --accent: #4493f8;
+      --warning-bg: #3b2f00;
+      --warning-fg: #e3b341;
+      --error-bg: #3c1618;
+      --error-fg: #ff7b72;
+      --success-fg: #3fb950;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px 64px;
+    line-height: 1.5;
+  }
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(320px, 420px) 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; }
+  p.subtitle { color: var(--muted); margin-top: 0; }
+  fieldset {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin: 0 0 16px;
+    padding: 12px 16px 16px;
+  }
+  legend { font-weight: 600; padding: 0 4px; }
+  label { display: block; margin: 8px 0 4px; font-size: 0.9rem; }
+  .radio-row { display: flex; gap: 16px; }
+  .radio-row label { display: flex; align-items: center; gap: 6px; font-size: 1rem; margin: 0; }
+  textarea, input[type="text"], input[type="password"] {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+  }
+  textarea { min-height: 140px; resize: vertical; font-family: ui-monospace, monospace; }
+  input[type="file"] { margin-top: 4px; }
+  .field-hint { color: var(--muted); font-size: 0.8rem; margin: 4px 0 0; }
+  button {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.6; cursor: default; }
+  button.secondary {
+    background: transparent;
+    color: inherit;
+    border: 1px solid var(--border);
+  }
+  .button-row { display: flex; gap: 10px; }
+  .status { margin: 14px 0; font-size: 0.95rem; min-height: 1.2em; }
+  .status-loading { color: var(--muted); }
+  .status-success { color: var(--success-fg); }
+  .status-error { color: var(--error-fg); font-weight: 600; }
+  .status-warning { color: var(--warning-fg); font-weight: 600; }
+  #result-section[hidden], #text-input-group[hidden], #file-input-group[hidden] { display: none; }
+  .view-toggle { display: flex; gap: 16px; margin-bottom: 12px; }
+  .view-toggle label { display: flex; align-items: center; gap: 6px; margin: 0; font-size: 0.9rem; }
+  .leg-card, .meta-footer {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg-card);
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .leg-title { font-weight: 600; margin-bottom: 6px; }
+  .field-row { display: flex; gap: 8px; font-size: 0.9rem; padding: 2px 0; }
+  .field-label { color: var(--muted); min-width: 110px; flex-shrink: 0; }
+  .field-value { word-break: break-word; }
+  .meta-footer { background: transparent; }
+  .raw-excerpt-details summary { cursor: pointer; color: var(--accent); font-size: 0.85rem; }
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+  details[open] pre.raw-excerpt { margin-top: 8px; }
+</style>
+</head>
+<body>
+  <h1>Simple Inference POC</h1>
+  <p class="subtitle">Exercises <code>/v1/extract/flight</code> and <code>/v1/extract/hotel</code> through the generated API client.</p>
+
+  <div class="layout">
+    <form id="extract-form">
+      <fieldset>
+        <legend>Document type</legend>
+        <div class="radio-row">
+          <label><input type="radio" name="docType" value="flight" checked /> Flight</label>
+          <label><input type="radio" name="docType" value="hotel" /> Hotel</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Source</legend>
+        <div class="radio-row">
+          <label><input type="radio" name="sourceMode" value="email" checked /> Paste text</label>
+          <label><input type="radio" name="sourceMode" value="image" /> Upload image</label>
+        </div>
+
+        <div id="text-input-group">
+          <label for="text-input">Document text</label>
+          <textarea id="text-input" placeholder="Paste a confirmation email here…"></textarea>
+        </div>
+
+        <div id="file-input-group" hidden>
+          <label for="file-input">Image file</label>
+          <input type="file" id="file-input" accept="image/*" />
+          <p class="field-hint">Run through OCR server-side before extraction.</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Request options</legend>
+        <label for="api-key-input">API key</label>
+        <input type="text" id="api-key-input" autocomplete="off" spellcheck="false" />
+        <p class="field-hint">Sent as the <code>x-api-key</code> header. Saved in this browser only.</p>
+
+        <label for="model-input">Model override (optional)</label>
+        <input type="text" id="model-input" placeholder="e.g. qwen2.5:3b" autocomplete="off" spellcheck="false" />
+      </fieldset>
+
+      <div class="button-row">
+        <button type="submit" id="submit-btn">Extract</button>
+        <button type="button" id="clear-btn" class="secondary">Clear</button>
+      </div>
+      <div id="status" class="status" role="status"></div>
+    </form>
+
+    <section id="result-section" hidden>
+      <div class="view-toggle">
+        <label><input type="radio" name="view" value="formatted" checked /> Formatted</label>
+        <label><input type="radio" name="view" value="raw" /> Raw JSON</label>
+      </div>
+      <div id="formatted-view"></div>
+      <pre id="raw-view" hidden></pre>
+    </section>
+  </div>
+
+  <script type="module" src="/bundle.js"></script>
+</body>
+</html>

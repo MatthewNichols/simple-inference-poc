@@ -1,8 +1,41 @@
 import { createServer } from "node:http";
+import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 import { extractFlightDetailsFromSource } from "../extractFlightDetails.js";
 import { extractHotelDetailsFromSource, NonReservationDocumentError } from "../extractHotelDetails.js";
 import { loadSourceTextFromBuffer, SOURCE_TYPES } from "../documentSource.js";
 import { openapiDocument } from "./openapi.js";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const webDir = path.join(__dirname, "..", "..", "web");
+
+// Static assets for the browser console (see README.md "Web UI").
+// `web/dist/bundle.js` is build output from `npm run build-web` - not
+// checked in - so a missing file here means that hasn't been run yet, not
+// a broken server.
+const STATIC_FILES = {
+  "/": { file: path.join(webDir, "index.html"), contentType: "text/html; charset=utf-8" },
+  "/bundle.js": { file: path.join(webDir, "dist", "bundle.js"), contentType: "text/javascript; charset=utf-8" },
+  "/bundle.js.map": { file: path.join(webDir, "dist", "bundle.js.map"), contentType: "application/json; charset=utf-8" },
+};
+
+async function serveStaticFile(res, { file, contentType }) {
+  try {
+    const data = await readFile(file);
+    res.writeHead(200, { "Content-Type": contentType, "Content-Length": data.length });
+    res.end(data);
+  } catch (err) {
+    if (err.code === "ENOENT") {
+      throw new ApiError(
+        404,
+        "NOT_FOUND",
+        `${path.relative(webDir, file)} hasn't been built yet - run \`npm run build-web\`.`
+      );
+    }
+    throw err;
+  }
+}
 
 class ApiError extends Error {
   constructor(status, code, message, extra = {}) {
@@ -109,6 +142,10 @@ export function createApiServer({ apiKey = process.env.API_KEY ?? "poc-dev-key" 
       }
       if (req.method === "GET" && pathname === "/openapi.json") {
         sendJson(res, 200, openapiDocument);
+        return;
+      }
+      if (req.method === "GET" && pathname in STATIC_FILES) {
+        await serveStaticFile(res, STATIC_FILES[pathname]);
         return;
       }
       if (req.method === "POST" && pathname === "/v1/extract/flight") {
