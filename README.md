@@ -398,3 +398,73 @@ failing `npm test` on a fresh checkout. The generated client's `runtime.ts`
 uses TypeScript parameter properties, which Node's native type-stripping
 can't handle (only erasure, not real transformation) — the test loads it
 via [tsx](https://github.com/privatenumber/tsx) (a devDependency) instead.
+
+## Deployment
+
+The API server (including the web UI's built assets) ships as a Docker
+image. Ollama is not baked into that image — it's a separate service the
+server reaches over HTTP via `OLLAMA_HOST`.
+
+**One-time: authenticate to GHCR**
+
+Docker needs a GitHub PAT to push — your regular GitHub login doesn't work
+here.
+
+1. [github.com/settings/tokens/new](https://github.com/settings/tokens/new)
+   (classic token — fine-grained tokens' package permissions are flakier
+   with the `docker` CLI as of this writing).
+2. Name it something like `ghcr-push`, set an expiration, and check the
+   `write:packages` scope (this implies `read:packages`; you don't need
+   `repo` unless the package should be linked to a private repository).
+3. Generate it and copy the token — GitHub only shows it once.
+4. Log in, pasting the token at the password prompt (or via stdin so it
+   never hits shell history):
+
+   ```bash
+   docker login ghcr.io -u <your-github-username>
+   # or, avoiding the interactive prompt:
+   echo "<paste-token>" | docker login ghcr.io -u <your-github-username> --password-stdin
+   ```
+
+`docker login` caches the credential in `~/.docker/config.json`, so this is
+a one-time setup per machine, not per push. Re-run it if the token expires.
+
+**Build and push:**
+
+```bash
+npm run docker:release          # tags & pushes :latest and :<git-sha>
+npm run docker:release -- v1.0  # also tags :v1.0
+```
+
+This runs [scripts/docker-build-push.sh](scripts/docker-build-push.sh),
+which builds [Dockerfile](Dockerfile) (a multi-stage build — the builder
+stage runs `generate-client:npx` and `build-web` so the image needs no
+Java or dev tooling at runtime) and pushes to
+`ghcr.io/matthewnichols/simple-inference-poc`.
+
+**Deploy (Coolify, or `docker compose up -d` on any Docker host):**
+
+[docker-compose.yml](docker-compose.yml) pulls that image and runs it
+alongside an `ollama/ollama` sibling container, with a `ollama-pull` job
+that pulls `OLLAMA_MODEL` into a named volume on first start (subsequent
+starts reuse the cached model). Copy [.env.example](.env.example) to
+`.env`, set `API_KEY`, then:
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+No install needed on the deploy host beyond Docker itself — Coolify
+already provides that. If the GHCR package is private, the host also needs
+`docker login ghcr.io` (or the equivalent registry credentials configured
+in Coolify).
+
+The `app` service uses `expose`, not `ports` — no host port binding, so
+nothing to collide with. In Coolify, give `app` a domain under its
+**Configuration > Domains** tab (target port 3000) and its proxy routes to
+the container over the internal Docker network. Deploying to a plain
+Docker host with no reverse proxy in front of it instead? Add a
+`docker-compose.override.yml` with a `ports: ["3000:3000"]` mapping for
+`app` and run `docker compose -f docker-compose.yml -f
+docker-compose.override.yml up -d`.

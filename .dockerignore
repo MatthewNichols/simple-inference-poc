@@ -1,0 +1,16 @@
+node_modules
+web/dist
+generated-client
+openapi.json
+.git
+.gitignore
+.claude
+tests
+test-data
+bruno
+Curl-and-Bruno.md
+README.md
+*.md
+.env
+.env.*
+!.env.example

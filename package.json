@@ -15,7 +15,8 @@
     "generate-client": "npm run generate-openapi-spec && docker run --rm --user \"$(id -u):$(id -g)\" -v \"$(pwd):/local\" openapitools/openapi-generator-cli generate -i /local/openapi.json -g typescript-fetch -o /local/generated-client",
     "generate-client:npx": "npm run generate-openapi-spec && npx @openapitools/openapi-generator-cli generate -i ./openapi.json -g typescript-fetch -o ./generated-client",
     "clean:generated-client": "rm -rf ./generated-client",
-    "build-web": "node scripts/build-web.js"
+    "build-web": "node scripts/build-web.js",
+    "docker:release": "./scripts/docker-build-push.sh"
   },
   "repository": {
     "type": "git",

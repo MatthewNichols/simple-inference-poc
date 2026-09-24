@@ -1,0 +1,53 @@
+# Deploy target for Coolify (or any plain Docker host). Pulls the image
+# built and pushed by scripts/docker-build-push.sh - does not build locally.
+#
+# Ollama runs as a sibling container so the stack is self-contained. Models
+# persist in the `ollama_data` volume, so `ollama-pull` only re-downloads
+# after a fresh volume. It exits 0 once the pull finishes - "Exited (0)" is
+# expected, not a failure.
+services:
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:1.5b}
+    entrypoint: ["sh", "-c", "ollama pull \"$$OLLAMA_MODEL\""]
+
+  # `expose` (not `ports`) - no host bind, so nothing to collide with. In
+  # Coolify, set this service's domain in its Configuration > Domains tab
+  # with a ":${APP_PORT}" suffix - Coolify publishes that same port number
+  # on the host to reach it, so if it collides with another app already on
+  # this host (as 3000 commonly does), change APP_PORT below and in the
+  # domain suffix together. On a plain Docker host with no reverse proxy in
+  # front, add a `ports: ["${APP_PORT:-3000}:${APP_PORT:-3000}"]` override
+  # (e.g. in a docker-compose.override.yml) to expose it directly.
+  app:
+    image: ghcr.io/matthewnichols/simple-inference-poc:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen2.5:1.5b}
+      API_KEY: ${API_KEY:?set API_KEY in .env}
+      PORT: ${APP_PORT:-3000}
+    expose:
+      - "${APP_PORT:-3000}"
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
